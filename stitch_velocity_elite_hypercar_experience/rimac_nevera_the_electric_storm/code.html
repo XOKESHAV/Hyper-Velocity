@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>APEX VELOCITY | RIMAC NEVERA</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,100..900;1,100..900&amp;family=Space+Grotesk:wght@300..700&amp;family=JetBrains+Mono:wght@100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#3cd7ff",
+                        "secondary-fixed-dim": "#ffb596",
+                        "on-background": "#e2e2e2",
+                        "on-surface-variant": "#ebbbb4",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-highest": "#353535",
+                        "surface": "#131313",
+                        "outline": "#b18780",
+                        "on-secondary-fixed-variant": "#7c2e00",
+                        "surface-tint": "#ffb4a8",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-bright": "#393939",
+                        "on-primary": "#690100",
+                        "surface-variant": "#353535",
+                        "secondary-container": "#fe6500",
+                        "on-tertiary": "#003642",
+                        "surface-container-low": "#1b1b1b",
+                        "on-tertiary-container": "#002e3a",
+                        "primary": "#ffb4a8",
+                        "outline-variant": "#603e39",
+                        "secondary-fixed": "#ffdbcd",
+                        "inverse-primary": "#c00100",
+                        "on-surface": "#e2e2e2",
+                        "primary-container": "#ff5540",
+                        "inverse-surface": "#e2e2e2",
+                        "on-secondary-fixed": "#360f00",
+                        "tertiary-fixed": "#b4ebff",
+                        "on-error": "#690005",
+                        "tertiary": "#3cd7ff",
+                        "error": "#ffb4ab",
+                        "secondary": "#ffb596",
+                        "on-tertiary-fixed-variant": "#004e5f",
+                        "surface-container": "#1f1f1f",
+                        "primary-fixed": "#ffdad4",
+                        "surface-dim": "#131313",
+                        "primary-fixed-dim": "#ffb4a8",
+                        "tertiary-container": "#009ebe",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-secondary-container": "#541d00",
+                        "error-container": "#93000a",
+                        "on-secondary": "#581e00",
+                        "inverse-on-surface": "#303030",
+                        "background": "#131313",
+                        "on-primary-container": "#5c0000",
+                        "on-tertiary-fixed": "#001f27",
+                        "on-primary-fixed-variant": "#930100",
+                        "on-primary-fixed": "#410000"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "gutter": "24px",
+                        "margin-mobile": "20px",
+                        "max-width": "1440px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["anybody"],
+                        "display-hero": ["anybody"],
+                        "headline-lg": ["anybody"],
+                        "body-md": ["spaceGrotesk"],
+                        "stats-data": ["jetbrainsMono"],
+                        "label-caps": ["spaceGrotesk"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["32px", {"lineHeight": "1.1", "fontWeight": "800"}],
+                        "display-hero": ["80px", {"lineHeight": "1.0", "letterSpacing": "-0.04em", "fontWeight": "900"}],
+                        "headline-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "stats-data": ["24px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.15em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        .scanline-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 50%, rgba(60, 215, 255, 0.05) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .voltage-glow {
+            filter: drop-shadow(0 0 15px rgba(60, 215, 255, 0.5));
+        }
+        .tilt-card {
+            transition: transform 0.3s ease-out;
+            transform-style: preserve-3d;
+        }
+        .tilt-card:hover {
+            transform: perspective(1000px) rotateX(2deg) rotateY(2deg);
+        }
+        .checkered-bg {
+            background-image: linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%), 
+                              linear-gradient(-45deg, rgba(255,255,255,0.05) 25%, transparent 25%), 
+                              linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.05) 75%), 
+                              linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.05) 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 bg-surface/30 backdrop-blur-2xl border-b border-white/10 shadow-[0_0_15px_rgba(255,180,168,0.1)]">
+<div class="flex items-center gap-4">
+<span class="font-display-hero text-2xl md:text-3xl lg:text-display-hero text-primary uppercase italic tracking-tighter">APEX VELOCITY</span>
+</div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-on-surface/70 hover:text-on-surface transition-colors font-label-caps text-label-caps" href="#">Showroom</a>
+<a class="text-on-surface/70 hover:text-on-surface transition-colors font-label-caps text-label-caps" href="#">Garage</a>
+<a class="text-on-surface/70 hover:text-on-surface transition-colors font-label-caps text-label-caps" href="#">Telemetry</a>
+<a class="text-on-surface/70 hover:text-on-surface transition-colors font-label-caps text-label-caps" href="#">Pit Lane</a>
+<a class="text-on-surface/70 hover:text-on-surface transition-colors font-label-caps text-label-caps" href="#">Events</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-on-surface">volume_up</button>
+<button class="material-symbols-outlined text-on-surface">account_circle</button>
+<button class="hidden lg:block bg-primary-container text-on-primary-container px-6 py-2 font-bold hover:bg-primary/10 hover:shadow-[0_0_20px_rgba(255,85,64,0.4)] transition-all duration-300 scale-105">DRIVE NOW</button>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="relative h-screen w-full flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img alt="Rimac Nevera Front View" class="w-full h-full object-cover brightness-75" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu2WeevHjHCw6Nqz94lP1EDFRKTiPbHOzEWTFQK359AVEMivc3Yc9vSwrwELw69S7ngGs7Ei9Oy6qGE0QeZ_hMiXlDU_4wk6DwNC4uW1aV4-ghQbv0hGDeylJIxUzPuKPT1dGXRVRxIQ3hRTJ1xVPlOX8UnoGtN7IYpCX7CRdURFv_BlhWV80ZaShIPeMUYMj5XRXh1m8FtYyEMLdqH7FYadSbnhLgRs-ee6vbArLHYK5K_iG9wIdO4gtxEeKuQAifqB5XouEGL55L"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50"></div>
+<div class="scanline-overlay"></div>
+</div>
+<div class="relative z-20 text-center px-margin-mobile">
+<h2 class="font-label-caps text-label-caps text-tertiary mb-4 tracking-[0.5em] animate-pulse">EST. 2021 | ELECTRIC EXCELLENCE</h2>
+<h1 class="font-display-hero text-headline-lg-mobile md:text-display-hero uppercase italic leading-none mb-6">
+                NEVERA:<br/><span class="text-transparent border-t-2 border-b-2 border-tertiary" style="-webkit-text-stroke: 1px #3cd7ff;">THE ELECTRIC STORM</span>
+</h1>
+<div class="flex flex-wrap justify-center gap-4 mt-8">
+<a class="bg-tertiary text-on-tertiary font-bold px-10 py-4 uppercase tracking-widest hover:shadow-[0_0_30px_rgba(60,215,255,0.6)] transition-all duration-300" href="https://www.rimac-automobili.com/" target="_blank">BUY NOW</a>
+<button class="border border-white/20 backdrop-blur-md bg-white/5 text-white px-10 py-4 font-bold uppercase tracking-widest hover:bg-white/10 transition-all">Explore Tech</button>
+</div>
+</div>
+</section>
+<!-- Performance Stats Grid -->
+<section class="py-24 px-margin-mobile md:px-margin-desktop bg-surface relative">
+<div class="max-w-max-width mx-auto">
+<div class="flex items-center gap-4 mb-16">
+<div class="w-12 h-1 bg-tertiary"></div>
+<h3 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg uppercase italic">CRITICAL TELEMETRY</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Stat Card -->
+<div class="tilt-card bg-surface-container-low border border-white/10 p-8 relative group overflow-hidden">
+<div class="absolute top-0 right-0 p-2 opacity-20 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-tertiary">speed</span>
+</div>
+<p class="font-label-caps text-label-caps text-on-surface/50 mb-4">TOP SPEED</p>
+<div class="flex flex-col">
+<span class="font-stats-data text-headline-lg text-tertiary voltage-glow">412 <span class="text-body-md font-body-md text-on-surface/50">km/h</span></span>
+<span class="text-body-md text-on-surface/40">258 mph</span>
+</div>
+<div class="mt-6 h-1 w-full bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-tertiary w-[95%] animate-[pulse_2s_infinite]"></div>
+</div>
+</div>
+<!-- Stat Card -->
+<div class="tilt-card bg-surface-container-low border border-white/10 p-8 relative group overflow-hidden">
+<div class="absolute top-0 right-0 p-2 opacity-20 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-tertiary">timer</span>
+</div>
+<p class="font-label-caps text-label-caps text-on-surface/50 mb-4">0-60 MPH</p>
+<div class="flex flex-col">
+<span class="font-stats-data text-headline-lg text-tertiary voltage-glow">1.74<span class="text-body-md font-body-md text-on-surface/50">s</span></span>
+<span class="text-body-md text-on-surface/40">World Record Pace</span>
+</div>
+<div class="mt-6 h-1 w-full bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-tertiary w-[100%]"></div>
+</div>
+</div>
+<!-- Stat Card -->
+<div class="tilt-card bg-surface-container-low border border-white/10 p-8 relative group overflow-hidden">
+<div class="absolute top-0 right-0 p-2 opacity-20 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-tertiary">bolt</span>
+</div>
+<p class="font-label-caps text-label-caps text-on-surface/50 mb-4">HORSEPOWER</p>
+<div class="flex flex-col">
+<span class="font-stats-data text-headline-lg text-tertiary voltage-glow">1,914 <span class="text-body-md font-body-md text-on-surface/50">hp</span></span>
+<span class="text-body-md text-on-surface/40">Quad-Motor System</span>
+</div>
+<div class="mt-6 h-1 w-full bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-tertiary w-[98%]"></div>
+</div>
+</div>
+<!-- Stat Card -->
+<div class="tilt-card bg-surface-container-low border border-white/10 p-8 relative group overflow-hidden">
+<div class="absolute top-0 right-0 p-2 opacity-20 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-tertiary">battery_charging_full</span>
+</div>
+<p class="font-label-caps text-label-caps text-on-surface/50 mb-4">BATTERY</p>
+<div class="flex flex-col">
+<span class="font-stats-data text-headline-lg text-tertiary voltage-glow">120 <span class="text-body-md font-body-md text-on-surface/50">kWh</span></span>
+<span class="text-body-md text-on-surface/40">Liquid-cooled Li-Mn-Ni</span>
+</div>
+<div class="mt-6 h-1 w-full bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-tertiary w-[85%]"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Detailed Performance Secondary Grid -->
+<section class="py-12 px-margin-mobile md:px-margin-desktop bg-surface-dim">
+<div class="max-w-max-width mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="p-6 border-l-2 border-tertiary bg-surface-container-high/30">
+<h4 class="font-label-caps text-label-caps text-tertiary mb-2">0-100 KM/H</h4>
+<p class="font-stats-data text-2xl">1.81 SECONDS</p>
+</div>
+<div class="p-6 border-l-2 border-tertiary bg-surface-container-high/30">
+<h4 class="font-label-caps text-label-caps text-tertiary mb-2">TORQUE</h4>
+<p class="font-stats-data text-2xl">2,360 NM</p>
+</div>
+<div class="p-6 border-l-2 border-tertiary bg-surface-container-high/30">
+<h4 class="font-label-caps text-label-caps text-tertiary mb-2">WEIGHT</h4>
+<p class="font-stats-data text-2xl">2,150 KG (4,740 LB)</p>
+</div>
+</div>
+</section>
+<!-- Financial Breakdown Section -->
+<section class="py-24 px-margin-mobile md:px-margin-desktop relative overflow-hidden">
+<div class="absolute inset-0 checkered-bg opacity-10"></div>
+<div class="max-w-max-width mx-auto relative z-10">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div>
+<h3 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg uppercase italic mb-8">FINANCIAL<br/><span class="text-tertiary">ENGAGEMENT</span></h3>
+<div class="space-y-6">
+<div class="flex justify-between items-end border-b border-white/10 pb-4">
+<span class="font-label-caps text-label-caps text-on-surface/60">BASE PRICE</span>
+<span class="font-stats-data text-3xl text-primary">₹18,00,00,000+</span>
+</div>
+<div class="flex justify-between items-end border-b border-white/10 pb-4">
+<span class="font-label-caps text-label-caps text-on-surface/60">MONTHLY EMI (20Y, 8% APR)</span>
+<span class="font-stats-data text-2xl">₹38,50,000</span>
+</div>
+<div class="flex justify-between items-end border-b border-white/10 pb-4">
+<span class="font-label-caps text-label-caps text-on-surface/60">MIN. MONTHLY SALARY</span>
+<span class="font-stats-data text-2xl">₹1.2 CR+</span>
+</div>
+<div class="flex justify-between items-end border-b border-white/10 pb-4">
+<span class="font-label-caps text-label-caps text-on-surface/60">SAVING HORIZON (50% SALARY)</span>
+<span class="font-stats-data text-2xl">30 YEARS</span>
+</div>
+<div class="flex justify-between items-end border-b border-white/10 pb-4">
+<span class="font-label-caps text-label-caps text-on-surface/60">EST. MAINTENANCE / YR</span>
+<span class="font-stats-data text-2xl">₹15 LAKHS</span>
+</div>
+</div>
+</div>
+<div class="relative">
+<div class="bg-surface-container-highest/50 backdrop-blur-3xl p-12 border border-white/20 rounded-xl relative overflow-hidden group">
+<div class="absolute -top-24 -right-24 w-64 h-64 bg-tertiary/10 rounded-full blur-3xl"></div>
+<h4 class="font-headline-lg-mobile uppercase italic mb-6">VOLTAGE METER</h4>
+<div class="space-y-8">
+<div>
+<div class="flex justify-between mb-2">
+<span class="font-label-caps text-label-caps">PURCHASE POWER</span>
+<span class="font-stats-data text-sm">LEVEL 01</span>
+</div>
+<div class="w-full h-8 bg-black/50 p-1 border border-white/10">
+<div class="h-full bg-tertiary animate-pulse shadow-[0_0_15px_#3cd7ff]" style="width: 5%;"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-2">
+<span class="font-label-caps text-label-caps">ADRENALINE POTENTIAL</span>
+<span class="font-stats-data text-sm">CRITICAL</span>
+</div>
+<div class="w-full h-8 bg-black/50 p-1 border border-white/10">
+<div class="h-full bg-secondary animate-pulse shadow-[0_0_15px_#ffb596]" style="width: 100%;"></div>
+</div>
+</div>
+</div>
+<div class="mt-12 p-6 bg-tertiary/5 border border-tertiary/20">
+<p class="text-sm opacity-70 italic font-body-md">"Owning a Nevera isn't just a transaction. It's an induction into the 1% of the 1%. Prepare your financial circuit."</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Full Width Feature Image -->
+<section class="w-full h-[60vh] relative">
+<img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" data-alt="A side-profile cinematic shot of the Rimac Nevera hypercar at night, parked on a wet neon-lit street in a futuristic city. The car's sleek carbon fiber body reflects the electric blue and vibrant pink neon signs of the surroundings. The atmosphere is moody, high-contrast, and exudes a premium racing aesthetic with visible brake calipers glowing." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjg8fWyQEi5KHwQW77ftbxRUIza4B0LkWthOIBMrx5lo9CTP9eWbyCm04iiE0_FX-qu_QOM-4Azl-uFFXTKbK_SNePhNMZRDm8fB6LxixpVjDEVDfpC-xl3f-rIWiSzI0F2MoFYMOqMqWkMA1tqYBisK9mUNtNM_FqAl1WF08zlRyil12ppV9eeaG0oLcR-weC9zPurn2OaiMIXR33VfjLCI35tr1j4Eq_YazktlOCsMLHZ4lAsQNQHF8lbodARuhDTFLSy20i7yeO"/>
+<div class="absolute inset-0 bg-gradient-to-r from-background via-transparent to-transparent flex items-center px-margin-desktop">
+<div class="max-w-lg">
+<h3 class="font-display-hero text-headline-lg-mobile md:text-5xl uppercase italic mb-4">AERODYNAMICS BY STORM</h3>
+<p class="text-on-surface/70">The active aero elements adjust 1,000 times per second to provide optimal downforce or drag reduction.</p>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="w-full py-16 px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-4 gap-gutter bg-surface-container-highest border-t-4 border-double border-white/5 bg-[url('checkered-pattern-overlay')]">
+<div class="col-span-1 md:col-span-1">
+<span class="font-headline-lg text-primary text-3xl block mb-6">APEX VELOCITY</span>
+<p class="text-on-surface/60 font-body-md">© 2024 APEX VELOCITY. PRECISION ENGINEERED.</p>
+</div>
+<div>
+<h5 class="font-label-caps text-label-caps text-primary mb-6">QUICK LINKS</h5>
+<ul class="space-y-4">
+<li><a class="text-on-surface/60 hover:text-primary transition-colors" href="#">Privacy</a></li>
+<li><a class="text-on-surface/60 hover:text-primary transition-colors" href="#">Terms</a></li>
+<li><a class="text-on-surface/60 hover:text-primary transition-colors" href="#">Partnerships</a></li>
+<li><a class="text-on-surface/60 hover:text-primary transition-colors" href="#">Contact</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-label-caps text-label-caps text-primary mb-6">FLEET</h5>
+<ul class="space-y-4">
+<li><a class="text-on-surface/60 hover:text-primary transition-colors" href="#">Rimac Nevera</a></li>
+<li><a class="text-on-surface/60 hover:text-primary transition-colors" href="#">Bugatti Mistral</a></li>
+<li><a class="text-on-surface/60 hover:text-primary transition-colors" href="#">Koenigsegg Jesko</a></li>
+<li><a class="text-on-surface/60 hover:text-primary transition-colors" href="#">Pininfarina Battista</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-label-caps text-label-caps text-primary mb-6">NEWSLETTER</h5>
+<div class="flex flex-col gap-4">
+<input class="bg-surface-dim border-none border-b-2 border-white/10 focus:border-primary text-white font-stats-data text-sm outline-none p-2 transition-all" placeholder="ENTER EMAIL" type="email"/>
+<button class="bg-primary text-on-primary py-3 font-bold hover:tracking-widest transition-all duration-500">SUBSCRIBE</button>
+</div>
+</div>
+</footer>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-40 h-20 flex justify-around items-center px-8 pb-2 bg-surface-container-lowest/80 backdrop-blur-xl border-t border-tertiary/20 shadow-[0_-10px_30px_rgba(60,215,255,0.2)] rounded-t-xl md:hidden">
+<div class="flex flex-col items-center text-on-surface-variant/50 hover:text-tertiary-fixed-dim transition-all">
+<span class="material-symbols-outlined">speed</span>
+<span class="font-label-caps text-[10px] mt-1">Engine</span>
+</div>
+<div class="flex flex-col items-center text-on-surface-variant/50 hover:text-tertiary-fixed-dim transition-all">
+<span class="material-symbols-outlined">settings_input_component</span>
+<span class="font-label-caps text-[10px] mt-1">Motor</span>
+</div>
+<div class="flex flex-col items-center text-on-surface-variant/50 hover:text-tertiary-fixed-dim transition-all">
+<span class="material-symbols-outlined">air</span>
+<span class="font-label-caps text-[10px] mt-1">Turbo</span>
+</div>
+<div class="flex flex-col items-center text-tertiary drop-shadow-[0_0_8px_rgba(60,215,255,0.8)] animate-pulse scale-110">
+<span class="material-symbols-outlined">mode_fan</span>
+<span class="font-label-caps text-[10px] mt-1">Redline</span>
+</div>
+</nav>
+<script>
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+            });
+        });
+    </script>
+</body></html>
