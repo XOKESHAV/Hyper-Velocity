@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>APEX VELOCITY - Financial Engineering</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,100..900;1,100..900&amp;family=Space+Grotesk:wght@300..700&amp;family=JetBrains+Mono:wght@100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        body {
+            background-color: #131313;
+            color: #e2e2e2;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .neon-glow-red {
+            box-shadow: 0 0 20px rgba(255, 85, 64, 0.3);
+        }
+
+        .neon-glow-orange {
+            box-shadow: 0 0 15px rgba(254, 101, 0, 0.4);
+        }
+
+        .carbon-texture {
+            background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0);
+            background-size: 4px 4px;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #fe6500;
+            cursor: pointer;
+            margin-top: -8px;
+            box-shadow: 0 0 10px #fe6500;
+        }
+
+        .perspective-card {
+            perspective: 1000px;
+        }
+
+        .tilt-inner {
+            transition: transform 0.3s ease-out;
+        }
+
+        .tilt-inner:hover {
+            transform: rotateX(5deg) rotateY(2deg);
+        }
+        
+        .checkered-pattern {
+            background-image: linear-gradient(45deg, #1a1a1a 25%, transparent 25%), 
+                              linear-gradient(-45deg, #1a1a1a 25%, transparent 25%), 
+                              linear-gradient(45deg, transparent 75%, #1a1a1a 75%), 
+                              linear-gradient(-45deg, transparent 75%, #1a1a1a 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                "outline-variant": "#603e39",
+                "surface-container": "#1f1f1f",
+                "surface-dim": "#131313",
+                "on-tertiary-fixed-variant": "#004e5f",
+                "surface-variant": "#353535",
+                "surface": "#131313",
+                "on-secondary-fixed": "#360f00",
+                "on-secondary": "#581e00",
+                "surface-bright": "#393939",
+                "on-secondary-container": "#541d00",
+                "surface-tint": "#ffb4a8",
+                "on-error-container": "#ffdad6",
+                "tertiary-container": "#009ebe",
+                "inverse-primary": "#c00100",
+                "tertiary-fixed": "#b4ebff",
+                "outline": "#b18780",
+                "inverse-surface": "#e2e2e2",
+                "surface-container-lowest": "#0e0e0e",
+                "tertiary-fixed-dim": "#3cd7ff",
+                "error-container": "#93000a",
+                "primary": "#ffb4a8",
+                "primary-container": "#ff5540",
+                "on-primary-fixed": "#410000",
+                "secondary-fixed": "#ffdbcd",
+                "background": "#131313",
+                "on-surface-variant": "#ebbbb4",
+                "on-surface": "#e2e2e2",
+                "secondary": "#ffb596",
+                "tertiary": "#3cd7ff",
+                "on-error": "#690005",
+                "primary-fixed": "#ffdad4",
+                "on-primary-container": "#5c0000",
+                "on-secondary-fixed-variant": "#7c2e00",
+                "on-background": "#e2e2e2",
+                "on-primary-fixed-variant": "#930100",
+                "secondary-fixed-dim": "#ffb596",
+                "on-tertiary-fixed": "#001f27",
+                "on-primary": "#690100",
+                "surface-container-low": "#1b1b1b",
+                "on-tertiary": "#003642",
+                "on-tertiary-container": "#002e3a",
+                "surface-container-highest": "#353535",
+                "primary-fixed-dim": "#ffb4a8",
+                "secondary-container": "#fe6500",
+                "error": "#ffb4ab",
+                "surface-container-high": "#2a2a2a",
+                "inverse-on-surface": "#303030"
+              },
+              "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+              },
+              "spacing": {
+                "max-width": "1440px",
+                "margin-desktop": "64px",
+                "margin-mobile": "20px",
+                "gutter": "24px",
+                "base": "8px"
+              },
+              "fontFamily": {
+                "body-md": ["Space Grotesk"],
+                "headline-lg": ["Anybody"],
+                "stats-data": ["JetBrains Mono"],
+                "display-hero": ["Anybody"],
+                "headline-lg-mobile": ["Anybody"],
+                "label-caps": ["Space Grotesk"]
+              },
+              "fontSize": {
+                "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                "headline-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                "stats-data": ["24px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                "display-hero": ["80px", {"lineHeight": "1.0", "letterSpacing": "-0.04em", "fontWeight": "900"}],
+                "headline-lg-mobile": ["32px", {"lineHeight": "1.1", "fontWeight": "800"}],
+                "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.15em", "fontWeight": "700"}]
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="font-body-md text-body-md bg-background">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-desktop py-4 bg-surface/30 backdrop-blur-2xl border-b border-white/10 shadow-[0_0_15px_rgba(255,180,168,0.1)]">
+<div class="font-display-hero text-headline-lg text-primary uppercase italic tracking-tighter">
+            APEX VELOCITY
+        </div>
+<nav class="hidden md:flex gap-8">
+<a class="text-on-surface/70 hover:text-on-surface transition-colors font-body-md text-body-md" href="#">Showroom</a>
+<a class="text-on-surface/70 hover:text-on-surface transition-colors font-body-md text-body-md" href="#">Garage</a>
+<a class="text-on-surface/70 hover:text-on-surface transition-colors font-body-md text-body-md" href="#">Telemetry</a>
+<a class="text-on-surface/70 hover:text-on-surface transition-colors font-body-md text-body-md" href="#">Pit Lane</a>
+<a class="text-on-surface/70 hover:text-on-surface transition-colors font-body-md text-body-md" href="#">Events</a>
+</nav>
+<div class="flex items-center gap-6">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer">volume_up</span>
+<span class="material-symbols-outlined text-primary cursor-pointer">account_circle</span>
+</div>
+<button class="bg-primary-container text-on-primary-container px-6 py-2 font-bold hover:bg-primary/10 hover:shadow-[0_0_20px_rgba(255,85,64,0.4)] transition-all duration-300 scale-105">
+                DRIVE NOW
+            </button>
+</div>
+</header>
+<main class="pt-32 pb-40 px-margin-mobile md:px-margin-desktop max-w-max-width mx-auto">
+<!-- Hero Section for Calculator -->
+<section class="mb-16">
+<h1 class="font-display-hero text-headline-lg-mobile md:text-display-hero text-white uppercase italic leading-none mb-4">
+                CAN YOU <span class="text-secondary-container">AFFORD</span> THE RUSH?
+            </h1>
+<p class="text-on-surface-variant max-w-2xl font-body-md text-body-md">
+                Precision engineering meets financial reality. Calibrate your trajectory to the podium. Input your monthly capital to discover which machines are within your reach.
+            </p>
+</section>
+<!-- Main Calculator Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<!-- Left: Calculator Inputs -->
+<div class="lg:col-span-4 sticky top-32">
+<div class="glass-panel p-8 rounded-xl border-l-4 border-l-secondary-container neon-glow-orange carbon-texture">
+<div class="mb-8">
+<label class="block font-label-caps text-label-caps text-secondary-container mb-4">MONTHLY SALARY (INR)</label>
+<div class="flex items-baseline gap-2 mb-4">
+<span class="font-stats-data text-headline-lg text-white">₹</span>
+<span class="font-stats-data text-headline-lg text-white" id="salary-display">2,50,000</span>
+</div>
+<input class="w-full h-2 mb-2" id="salary-slider" max="2000000" min="50000" step="10000" type="range" value="250000"/>
+<div class="flex justify-between font-label-caps text-[10px] text-on-surface/40">
+<span>50K</span>
+<span>2M+</span>
+</div>
+</div>
+<div class="space-y-6">
+<div class="p-4 bg-white/5 rounded border border-white/10">
+<h3 class="font-label-caps text-label-caps text-primary mb-2">LOAN PARAMETERS</h3>
+<div class="flex justify-between items-center mb-1">
+<span class="text-on-surface/60 text-sm">Duration</span>
+<span class="text-white font-stats-data text-sm">20 YEARS</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface/60 text-sm">Interest Rate</span>
+<span class="text-white font-stats-data text-sm">8% APR</span>
+</div>
+</div>
+<div class="flex items-start gap-3 text-xs text-on-surface/40 italic">
+<span class="material-symbols-outlined text-secondary-container">info</span>
+<p>Calculations assume 40% of monthly salary allocated to EMI. Fuel, insurance, and maintenance not included.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Car Grid -->
+<div class="lg:col-span-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter" id="car-results">
+<!-- Dynamic Cards Loaded via JS -->
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-16 px-margin-desktop grid grid-cols-1 md:grid-cols-4 gap-gutter bg-surface-container-highest border-t-4 border-double border-white/5 checkered-pattern">
+<div class="flex flex-col gap-4">
+<div class="font-headline-lg text-primary text-headline-lg leading-none">APEX</div>
+<p class="font-body-md text-body-md text-on-surface/60 italic">© 2024 APEX VELOCITY. PRECISION ENGINEERED.</p>
+</div>
+<div class="flex flex-col gap-2">
+<h4 class="font-label-caps text-label-caps text-secondary mb-2">NAVIGATE</h4>
+<a class="text-on-surface/60 hover:text-primary transition-all duration-500 hover:tracking-widest font-label-caps text-label-caps" href="#">Privacy</a>
+<a class="text-on-surface/60 hover:text-primary transition-all duration-500 hover:tracking-widest font-label-caps text-label-caps" href="#">Terms</a>
+</div>
+<div class="flex flex-col gap-2">
+<h4 class="font-label-caps text-label-caps text-secondary mb-2">ENGAGE</h4>
+<a class="text-on-surface/60 hover:text-primary transition-all duration-500 hover:tracking-widest font-label-caps text-label-caps" href="#">Partnerships</a>
+<a class="text-on-surface/60 hover:text-primary transition-all duration-500 hover:tracking-widest font-label-caps text-label-caps" href="#">Contact</a>
+</div>
+<div class="flex flex-col items-start gap-4">
+<h4 class="font-label-caps text-label-caps text-secondary">NEWSLETTER</h4>
+<div class="w-full border-b border-white/20 focus-within:border-secondary-container transition-all">
+<input class="bg-transparent border-none w-full text-white font-stats-data py-2 focus:ring-0 placeholder:text-on-surface/30" placeholder="EMAIL ADDRESS" type="email"/>
+</div>
+</div>
+</footer>
+<!-- BottomNavBar (Mobile Only) -->
+<div class="md:hidden fixed bottom-0 left-0 w-full z-40 h-20 flex justify-around items-center px-8 pb-2 bg-surface-container-lowest/80 backdrop-blur-xl border-t border-tertiary/20 shadow-[0_-10px_30px_rgba(60,215,255,0.2)] rounded-t-xl">
+<div class="flex flex-col items-center text-on-surface-variant/50">
+<span class="material-symbols-outlined">speed</span>
+<span class="font-label-caps text-[10px] mt-1">ENGINE</span>
+</div>
+<div class="flex flex-col items-center text-on-surface-variant/50">
+<span class="material-symbols-outlined">settings_input_component</span>
+<span class="font-label-caps text-[10px] mt-1">EXHAUST</span>
+</div>
+<div class="flex flex-col items-center text-on-surface-variant/50">
+<span class="material-symbols-outlined">air</span>
+<span class="font-label-caps text-[10px] mt-1">TURBO</span>
+</div>
+<div class="flex flex-col items-center text-tertiary drop-shadow-[0_0_8px_rgba(60,215,255,0.8)] animate-pulse scale-110">
+<span class="material-symbols-outlined">mode_fan</span>
+<span class="font-label-caps text-[10px] mt-1">REDLINE</span>
+</div>
+</div>
+<script>
+        const cars = [
+            { id: 1, name: "VELOCITY V8", price: 12000000, img: "image-v8", category: "Sport" },
+            { id: 2, name: "NEBULA HYPER", price: 45000000, img: "image-nebula", category: "Hypercar" },
+            { id: 3, name: "CARBON GT", price: 8500000, img: "image-carbon-gt", category: "Grand Tourer" },
+            { id: 4, name: "ZENITH EV", price: 22000000, img: "image-zenith", category: "Electric" },
+            { id: 5, name: "APEX SPRINT", price: 6000000, img: "image-sprint", category: "Track" },
+            { id: 6, name: "OVERLORD SUV", price: 18000000, img: "image-overlord", category: "SUV" }
+        ];
+
+        const salarySlider = document.getElementById('salary-slider');
+        const salaryDisplay = document.getElementById('salary-display');
+        const resultsGrid = document.getElementById('car-results');
+
+        function formatCurrency(val) {
+            return new Intl.NumberFormat('en-IN').format(val);
+        }
+
+        function calculateEMI(principal, rate, years) {
+            let r = rate / (12 * 100);
+            let n = years * 12;
+            let emi = principal * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+            return emi;
+        }
+
+        function updateResults() {
+            const monthlySalary = parseInt(salarySlider.value);
+            const affordableEMI = monthlySalary * 0.4;
+            salaryDisplay.innerText = formatCurrency(monthlySalary);
+
+            resultsGrid.innerHTML = '';
+
+            cars.forEach(car => {
+                const emi = calculateEMI(car.price, 8, 20);
+                const yearsToSaveDownpayment = (car.price * 0.2) / (monthlySalary * 0.2);
+                const isAffordable = emi <= affordableEMI;
+
+                const card = document.createElement('div');
+                card.className = `perspective-card group ${isAffordable ? '' : 'opacity-50 grayscale'}`;
+                
+                card.innerHTML = `
+                    <div class="tilt-inner glass-panel rounded-xl overflow-hidden flex flex-col h-full border border-white/10 transition-all hover:border-secondary-container/50">
+                        <div class="relative h-48 w-full">
+                            <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?q=80&w=1000&auto=format&fit=crop" 
+                                 class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                                 data-alt="A high-performance luxury sports car with sharp aerodynamic lines, finished in a matte carbon fiber texture with vibrant neon orange pinstripes. The vehicle is parked in a futuristic, dimly lit underground garage with wet concrete floors reflecting the ambient neon glow. Professional automotive photography, low-angle shot, cinematic lighting, ultra-high contrast, 8k resolution, evoking a sense of raw power and exclusivity.">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                            <div class="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1 border border-white/20 rounded">
+                                <span class="font-label-caps text-[10px] text-white tracking-widest">${car.category}</span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col">
+                            <h3 class="font-display-hero text-stats-data text-white italic uppercase mb-1">${car.name}</h3>
+                            <div class="font-stats-data text-secondary-container mb-4">₹${formatCurrency(car.price)}</div>
+                            
+                            <div class="space-y-3 pt-4 border-t border-white/5">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-on-surface/40 text-xs font-label-caps">MONTHLY EMI</span>
+                                    <span class="font-stats-data text-sm text-white">₹${formatCurrency(Math.round(emi))}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-on-surface/40 text-xs font-label-caps">YEARS SAVING</span>
+                                    <span class="font-stats-data text-sm ${isAffordable ? 'text-primary' : 'text-error'}">${yearsToSaveDownpayment.toFixed(1)} YRS</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-on-surface/40 text-xs font-label-caps">AFFORDABILITY</span>
+                                    <div class="flex gap-1 h-1 w-24 bg-white/5 rounded-full overflow-hidden">
+                                        <div class="h-full bg-secondary-container shadow-[0_0_5px_#fe6500]" style="width: ${Math.min((affordableEMI / emi) * 100, 100)}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="mt-6 w-full py-3 bg-white/5 border border-white/10 font-label-caps text-label-caps hover:bg-secondary-container hover:text-black transition-all ${!isAffordable ? 'cursor-not-allowed opacity-50' : ''}">
+                                ${isAffordable ? 'CONFIGURE NOW' : 'OUT OF REACH'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+                resultsGrid.appendChild(card);
+            });
+        }
+
+        salarySlider.addEventListener('input', updateResults);
+        
+        // Initial Run
+        updateResults();
+
+        // Cursor micro-interaction for cards
+        document.addEventListener('mousemove', (e) => {
+            const cards = document.querySelectorAll('.tilt-inner');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                if (x > 0 && x < rect.width && y > 0 && y < rect.height) {
+                    const xc = rect.width / 2;
+                    const yc = rect.height / 2;
+                    const dx = x - xc;
+                    const dy = y - yc;
+                    
+                    card.style.transform = `rotateY(${dx / 20}deg) rotateX(${-dy / 20}deg)`;
+                } else {
+                    card.style.transform = '';
+                }
+            });
+        });
+    </script>
+</body></html>
